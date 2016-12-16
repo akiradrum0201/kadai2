@@ -93,7 +93,7 @@ public class CalculateSales {
 				 String regex = "\\d{3}$";
 
 				 if( (column2.length != 2) || (!(column2[0].matches(regex))) ){
-				 System.out.println("支店定義ファイルのフォーマットが不正です");
+				 System.out.println("商品定義ファイルのフォーマットが不正です");
 				 return;
 				 }
 				 commoditymap.put(column2[0], column2[1]);
