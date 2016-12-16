@@ -21,8 +21,8 @@ public class CalculateSales {
 	public static void main(String[] args) {
 		 //System.out.println(args[0]);
 		 HashMap<String, String> branchmap = new HashMap<String,String>();
-		 HashMap<String,Integer>branchSaledmap = new HashMap<String,Integer>();
-		 HashMap<String,Integer>commoditySaledmap = new HashMap<String,Integer>();
+		 HashMap<String,Long>branchSaledmap = new HashMap<String,Long>();
+		 HashMap<String,Long>commoditySaledmap = new HashMap<String,Long>();
 
 		 BufferedReader br =null;
 
@@ -52,7 +52,7 @@ public class CalculateSales {
 				 }
 
 				 branchmap.put(column[0], column[1]);
-				 branchSaledmap.put(column[0],0);
+				 branchSaledmap.put(column[0],(long) 0);
 			 }
 
 		 }catch(FileNotFoundException e){
@@ -105,7 +105,7 @@ public class CalculateSales {
 				 }
 
 				 commoditymap.put(number2, name2);
-				 commoditySaledmap.put(number2,0);
+				 commoditySaledmap.put(number2,(long) 0);
 			 }
 
 		 } catch(FileNotFoundException e){
@@ -180,7 +180,7 @@ public class CalculateSales {
 				 String number = rcdfile.getName().substring(0, rcdfile.getName().indexOf("."));
 
 				 if(!(list.size()==3)){
-					 System.out.println("ファイルフォーマットが不正です");
+					 System.out.println(number+"のフォーマットが不正です");
 					 return;
 
 				 }else if(!(branchSaledmap.containsKey((list.get(0))))){
@@ -192,11 +192,11 @@ public class CalculateSales {
 					return;
 				 }
 
-				int conversion = Integer.parseInt(list.get(2));
-				int sales = branchSaledmap.get(list.get(0))+conversion;
-				branchSaledmap.put(list.get(0),sales);
+				long conversion = Long.parseLong(list.get(2));
+				long sales = branchSaledmap.get(list.get(0))+conversion;
+				branchSaledmap.put(list.get(0), sales);
 
-				int sales2 = commoditySaledmap.get(list.get(1))+conversion;
+				long sales2 = commoditySaledmap.get(list.get(1))+conversion;
 				commoditySaledmap.put(list.get(1),sales2);
 
 				long val = 9999999999l;
@@ -224,24 +224,24 @@ public class CalculateSales {
 					 }
 			 }
 		 }
-			List<HashMap.Entry<String,Integer>> branchSale =
-					new ArrayList<HashMap.Entry<String,Integer>>(branchSaledmap.entrySet());
-			Collections.sort(branchSale, new Comparator<Map.Entry<String,Integer>>() {
+			List<HashMap.Entry<String,Long>> branchSale =
+					new ArrayList<HashMap.Entry<String,Long>>(branchSaledmap.entrySet());
+			Collections.sort(branchSale, new Comparator<Map.Entry<String,Long>>() {
 				@Override
 				public int compare(
-						Entry<String,Integer> entry1, Entry<String,Integer> entry2) {
-							return ((Integer)entry2.getValue()).compareTo((Integer)entry1.getValue());
+						Entry<String,Long> entry1, Entry<String,Long> entry2) {
+							return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 							}
 				});
 
 
-			List<HashMap.Entry<String,Integer>> commoditySale =
-					new ArrayList<HashMap.Entry<String,Integer>>(commoditySaledmap.entrySet());
-			Collections.sort(commoditySale, new Comparator<Map.Entry<String,Integer>>() {
+			List<HashMap.Entry<String,Long>> commoditySale =
+					new ArrayList<HashMap.Entry<String,Long>>(commoditySaledmap.entrySet());
+			Collections.sort(commoditySale, new Comparator<Map.Entry<String,Long>>() {
 				@Override
 				public int compare(
-						Entry<String,Integer> entry1, Entry<String,Integer> entry2) {
-							return ((Integer)entry2.getValue()).compareTo((Integer)entry1.getValue());
+						Entry<String,Long> entry1, Entry<String,Long> entry2) {
+							return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 							}
 				});
 
@@ -253,7 +253,7 @@ public class CalculateSales {
 				FileWriter fw = new FileWriter(file);
 				bw = new BufferedWriter(fw);
 
-				for (Entry<String,Integer> s : branchSale) {
+				for (Entry<String,Long> s : branchSale) {
 					bw.write(s.getKey() + "," + branchmap.get(s.getKey())+"," + s.getValue() + System.lineSeparator());
 				}
 
@@ -275,7 +275,7 @@ public class CalculateSales {
 				FileWriter fw = new FileWriter(file);
 				bw = new BufferedWriter(fw);
 
-				for(Entry<String,Integer> s : commoditySale) {
+				for(Entry<String,Long> s : commoditySale) {
 					bw.write(s.getKey() + ","+commoditymap.get(s.getKey())+"," + s.getValue() + System.lineSeparator());
 				}
 				bw.close();
