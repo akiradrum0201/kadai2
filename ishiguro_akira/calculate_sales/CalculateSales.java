@@ -95,12 +95,12 @@ public class CalculateSales {
 				 String regex ="^[a-zA-Z0-9]{8}$";
 
 				 if(!(number2.matches(regex))){
-					 System.out.println("商品定義フォーマットが不正です");
+					 System.out.println("商品定義ファイルのフォーマットが不正です");
 					 return;
 				 }
 
 				 if(column2.length != 2){
-					 System.out.println("商品定義フォーマットが不正です");
+					 System.out.println("商品定義ファイルのフォーマットが不正です");
 					 return;
 				 }
 
@@ -142,7 +142,11 @@ public class CalculateSales {
 			 File file = files[i];
 			 //System.out.println((i + 1) + ": " + file);
 			 String regex = "\\d{8}.rcd";
-			 if(file.getName().matches(regex)){
+
+			 if(file.isDirectory()){
+				 System.out.println("売上ファイル名が連番になっていません");
+				 return;
+			 }else if(file.getName().matches(regex)){
 				 rcdlist.add(file);
 			 }
 		 }
@@ -174,13 +178,14 @@ public class CalculateSales {
 				 List<String> list = new ArrayList<String>();
 				 while((s = br.readLine()) != null){
 					 list.add(s);
+
 				 }
 
 				 File rcdfile = rcdlist.get(i);
 				 String number = rcdfile.getName().substring(0, rcdfile.getName().indexOf("."));
 
 				 if(!(list.size()==3)){
-					 System.out.println(number+"のフォーマットが不正です");
+					 System.out.println(number+".rcdのフォーマットが不正です");
 					 return;
 
 				 }else if(!(branchSaledmap.containsKey((list.get(0))))){
@@ -262,7 +267,7 @@ public class CalculateSales {
 				System.out.println("予期せぬエラーが発生しました");
 				return;
 			}finally{
-				 if(br != null)
+				 if(bw != null)
 					 try {
 						 bw.close();
 					 } catch (IOException e) {
@@ -284,7 +289,7 @@ public class CalculateSales {
 				System.out.println("予期せぬエラーが発生しました");
 				return;
 			}finally{
-				 if(br != null)
+				 if(bw != null)
 					 try {
 						 bw.close();
 					 } catch (IOException e) {
