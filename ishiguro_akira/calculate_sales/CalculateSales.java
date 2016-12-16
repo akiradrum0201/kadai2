@@ -44,7 +44,7 @@ public class CalculateSales {
 
 			 while((s = br.readLine()) != null){
 				 String[] column = s.split(",");
-				 String regex = "\\d{3}$";
+				 String regex = "\\d{3}";
 
 				 if((column.length !=2)&&(column[0].matches(regex)) ){
 					 System.out.println("支店定義ファイルのフォーマットが不正です");
@@ -143,10 +143,8 @@ public class CalculateSales {
 			 //System.out.println((i + 1) + ": " + file);
 			 String regex = "\\d{8}.rcd";
 
-			 if(file.isDirectory()){
-				 System.out.println("売上ファイル名が連番になっていません");
-				 return;
-			 }else if(file.getName().matches(regex)){
+			
+			 if(file.getName().matches(regex)&&file.isFile()){
 				 rcdlist.add(file);
 			 }
 		 }
