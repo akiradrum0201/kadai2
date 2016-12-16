@@ -90,7 +90,7 @@ public class CalculateSales {
 
 			 while((s=br.readLine())!= null){
 				 String[] column2 = s.split(",");
-				 String regex = "\\d{3}$";
+				 String regex = "^[0-9a-zA-Z]{8}$";
 
 				 if( (column2.length != 2) || (!(column2[0].matches(regex))) ){
 				 System.out.println("商品定義ファイルのフォーマットが不正です");
