@@ -44,9 +44,9 @@ public class CalculateSales {
 
 			 while((s = br.readLine()) != null){
 				 String[] column = s.split(",");
-				 String regex = "\\d{3}";
+				 String regex = "\\d{3}$";
 
-				 if((column.length !=2)&&(column[0].matches(regex)) ){
+				 if( (column.length != 2) || (!(column[0].matches(regex))) ){
 					 System.out.println("支店定義ファイルのフォーマットが不正です");
 					 return;
 				 }
@@ -90,22 +90,14 @@ public class CalculateSales {
 
 			 while((s=br.readLine())!= null){
 				 String[] column2 = s.split(",");
-				 String number2 = column2[0];
-				 String name2 = column2[1];
-				 String regex ="^[a-zA-Z0-9]{8}$";
+				 String regex = "\\d{3}$";
 
-				 if(!(number2.matches(regex))){
-					 System.out.println("商品定義ファイルのフォーマットが不正です");
-					 return;
+				 if( (column2.length != 2) || (!(column2[0].matches(regex))) ){
+				 System.out.println("支店定義ファイルのフォーマットが不正です");
+				 return;
 				 }
-
-				 if(column2.length != 2){
-					 System.out.println("商品定義ファイルのフォーマットが不正です");
-					 return;
-				 }
-
-				 commoditymap.put(number2, name2);
-				 commoditySaledmap.put(number2,(long) 0);
+				 commoditymap.put(column2[0], column2[1]);
+				 commoditySaledmap.put(column2[0],(long) 0);
 			 }
 
 		 } catch(FileNotFoundException e){
@@ -143,7 +135,7 @@ public class CalculateSales {
 			 //System.out.println((i + 1) + ": " + file);
 			 String regex = "\\d{8}.rcd";
 
-			
+
 			 if(file.getName().matches(regex)&&file.isFile()){
 				 rcdlist.add(file);
 			 }
