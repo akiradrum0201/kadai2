@@ -61,8 +61,7 @@ public class CalculateSales {
 			return;
 		}
 		//売上げファイルの読み込み
-		String error = "予期せぬエラーが発生しました";
-		if(!readFileSales(rcdlist, br, branchSaledmap, commoditySaledmap, error)){
+		if(!readFileSales(rcdlist, br, branchSaledmap, commoditySaledmap)){
 			return;
 		}
 
@@ -151,7 +150,7 @@ public class CalculateSales {
 	}
 
 	//売上ファイルの読み込みメソッド
-	private static boolean readFileSales(ArrayList<File> rcdlist, BufferedReader br, HashMap<String, Long> branch, HashMap<String, Long> commodity, String error) {
+	private static boolean readFileSales(ArrayList<File> rcdlist, BufferedReader br, HashMap<String, Long> branch, HashMap<String, Long> commodity) {
 		for(int i = 0; i < rcdlist.size(); i++) {
 			try {
 				FileReader fr = new FileReader(rcdlist.get(i));
@@ -168,13 +167,16 @@ public class CalculateSales {
 
 				if(!(list.size() == 3)) {
 					System.out.println(number+".rcdのフォーマットが不正です");
+					return false;
 
 				}else if(!(branch.containsKey((list.get(0))))){
 					System.out.println(number+".rcdの支店コードが不正です");
+					return false;
 
 
 				}else if(!(commodity.containsKey((list.get(1))))){
 					System.out.println(number+".rcdの商品コードが不正です");
+					return false;
 
 				}
 
@@ -187,22 +189,22 @@ public class CalculateSales {
 				long val = 9999999999l;
 				if(sales>val||sales2>val){
 					System.out.println("合計金額が10桁を超えました");
+					return false;
 
 				}
 
 			} catch(FileNotFoundException e){
-				System.out.println("error");
-
-
+				System.out.println("予期せぬエラーが発生しました");
+				return false;
 			} catch(Exception e) {
-				System.out.println("error");
-
+				System.out.println("予期せぬエラーが発生しました");
+				return false;
 			} finally {
 				if(br != null)
 					try {
 						br.close();
 					} catch (IOException e) {
-						System.out.println("error");
+						System.out.println("予期せぬエラーが発生しました");
 						return false;
 					}
 			}
