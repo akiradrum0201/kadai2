@@ -34,36 +34,49 @@ public class CalculateSales {
 		String readFileNameBranch = args[0] + File.separator + "branch.lst";
 		String definitionBranch = "支店定義";
 		String branchRegex = "\\d{3}$";
-		readFile(readFileNameBranch, definitionBranch, br, branchRegex, branchmap, branchSaledmap);
-
+		if(!readFile(readFileNameBranch, definitionBranch, br, branchRegex, branchmap, branchSaledmap)){
+			return;
+		}
 		//２＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 		HashMap<String, String> commoditymap = new HashMap<String,String>();
 		// 商品定義ファイルの読み込み
 		String readFileNameCommodity= args[0] + File.separator + "commodity.lst";
 		String definitionCommodity = "商品定義";
 		String commodityRegex = "^[0-9a-zA-Z]{8}$";
-		readFile(readFileNameCommodity, definitionCommodity, br, commodityRegex, commoditymap, commoditySaledmap);
+		if(!readFile(readFileNameCommodity, definitionCommodity, br, commodityRegex, commoditymap, commoditySaledmap)){
+			return;
+		}
 
 		//３＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 		//ファイル検索
 		ArrayList<File> rcdlist = new ArrayList<>();
 		File rcd = new File(args[0]);
 		String fileRegex = "\\d{8}.rcd";
-		findFile(rcd.listFiles(), fileRegex, rcdlist);
+		if(!findFile(rcd.listFiles(), fileRegex, rcdlist)){
+			return;
+		}
 		//連番チェック
 		int count = 1;
-		numberCheck(rcdlist, count);
+		if(!numberCheck(rcdlist, count)){
+			return;
+		}
 		//売上げファイルの読み込み
 		String error = "予期せぬエラーが発生しました";
-		readFileSales(rcdlist, br, branchSaledmap, commoditySaledmap, error);
+		if(!readFileSales(rcdlist, br, branchSaledmap, commoditySaledmap, error)){
+			return;
+		}
 
 		//４＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 		// branch.outの出力
 		String outFileNameBranch = args[0] + File.separator + "branch.out";
-		outputFile(outFileNameBranch, branchmap, branchSaledmap);
+		if(!outputFile(outFileNameBranch, branchmap, branchSaledmap)){
+			return;
+		}
 		// commodity.outの出力
 		String outFileNameCommodity = args[0] + File.separator + "commodity.out";
-		outputFile(outFileNameCommodity, commoditymap, commoditySaledmap);
+		if(!outputFile(outFileNameCommodity, commoditymap, commoditySaledmap)){
+			return;
+		}
 	}
 //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
@@ -197,7 +210,7 @@ public class CalculateSales {
 		}
 
 
-	// ファイル出力メソッドメソッド
+	// ファイル出力メソッド
 	private static boolean outputFile(String filaName, HashMap<String, String> nameMap ,  HashMap<String, Long> saleMap ) {
 
 		List<HashMap.Entry<String,Long>> saleList =
