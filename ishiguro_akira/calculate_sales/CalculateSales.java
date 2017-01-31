@@ -165,7 +165,7 @@ public class CalculateSales {
 				String number = rcdfile.getName().substring(0, rcdfile.getName().indexOf("."));
 
 
-				if(!(list.size() == 3)) {
+				if(!(list.size()==3 )) {
 					System.out.println(number+".rcdのフォーマットが不正です");
 					return false;
 
